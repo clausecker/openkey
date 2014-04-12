@@ -1,0 +1,11 @@
+Each item is prefixed with one of the following letters:
+
+ B bugfix
+ K Known bug
+ C compatible expansion without adding new symbols
+ I incompatible change
+ N new function, method or variable in the API
+ R general remark
+
+Release 0.1 (2014-04-12):
+ R initial release.
