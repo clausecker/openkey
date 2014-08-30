@@ -9,3 +9,7 @@ Each item is prefixed with one of the following letters:
 
 Release 0.1 (2014-04-12):
  R initial release.
+
+Release 0.2 (2014-08-30):
+ I Bump freefare dependency to 0.3. This is required to make the code
+   compile once again.
