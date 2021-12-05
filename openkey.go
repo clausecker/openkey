@@ -1,6 +1,6 @@
 // Go bindings for the libopenkey. These bindings use the libfreefare bindings
-// from package github.com/fuzxxl/freefare/0.2/freefare. Please notice that
-// these bindings ship their own copy of the libopenkey.
+// from package github.com/clausecker/freefare. Please notice that these
+// bindings ship their own copy of the libopenkey.
 package openkey
 
 // #cgo LDFLAGS: -lnfc -lfreefare -luuid -lgcrypt
@@ -11,6 +11,7 @@ package openkey
 import "C"
 import "sort"
 import "strconv"
+import "sync"
 import "unsafe"
 
 import "github.com/clausecker/freefare"
@@ -25,9 +26,6 @@ const (
 // An error code caused by the libopenkey. This is usually the negated return
 // value.
 type Error int
-
-// Internal veriable to avoid calling initGcrypt() too often
-var gcryptInited = false
 
 // Returns a human-readable string describing the error. The strings returned
 // by this function are not guaranteed to remain stable.
@@ -50,7 +48,6 @@ func New() Context {
 		panic("Could not create openkey.Context: C.openkey_init() failed")
 	}
 
-	gcryptInited = true
 	return Context{&ctxtptr}
 }
 
@@ -298,15 +295,13 @@ func tagptr(t freefare.DESFireTag) C.MifareTag {
 	return C.MifareTag(unsafe.Pointer(t.Pointer()))
 }
 
+var gcryptOnce sync.Once
+
 // initialize the libgcrypt, panic if that fails
 func initGcrypt() {
-	if gcryptInited {
-		return
-	}
-
-	if C.gcry_check_version(nil) == nil {
-		panic("Could not initilize libgcrypt")
-	}
-
-	gcryptInited = true
+	gryptOnce.Do(func() {
+		if C.gcry_check_version(nil) == nil {
+			panic("Could not initilize libgcrypt")
+		}
+	})
 }
