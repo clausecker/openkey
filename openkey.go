@@ -13,7 +13,7 @@ import "sort"
 import "strconv"
 import "unsafe"
 
-import "github.com/fuzxxl/freefare/0.3/freefare"
+import "github.com/clausecker/freefare"
 
 // Roles
 const (

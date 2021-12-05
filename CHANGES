@@ -13,3 +13,9 @@ Release 0.1 (2014-04-12):
 Release 0.2 (2014-08-30):
  I Bump freefare dependency to 0.3. This is required to make the code
    compile once again.
+
+Release 0.3 (2021-12-05):
+ B Fix wrong error handling in call to gcry_kdf_derive
+ C Bump github.com/clausecker/freefare dependency to v0.4.0
+ I Convert to Go modules and rearrange source code accordingly
+ R The old layout will stay available but will no longer be updated
